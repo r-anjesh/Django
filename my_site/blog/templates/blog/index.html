@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+My Blog
+{% endblock %}
+
+{% block css_files%}
+<link rel="stylesheet" href="{% static "blog/index.css" %}">
+{%endblock%}
+
+{% block content %}
+<header id="main-navigation">
+    <h1><a href="">Anjesh's Blog</a></h1>
+    <nav><a href="">All Posts</a></nav>
+</header>
+<section id="welcome">
+    <header>
+        <img src="{% static "blog/images/max.png" %}" alt="Anjesh - the author of this Blog">
+        <h2>ANJESH'S BLOG</h2>
+    </header>
+    <p>Hi, I am Anjesh and I blog about tech and the world</p>
+</section>
+
+
+<section id="latest-posts">
+    <h2>My Latest Thoughts</h2>
+    <ul>
+        {% include "my_site/blog/templates/blog/includes/post.html" %}
+    </ul>
+</section>
+
+<section id="about">
+    <h2>What I Do</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla voluptate quo animi. Labore numquam minus velit
+        dignissimos excepturi cumque ipsam, praesentium quasi eligendi fugit repellat distinctio, deserunt vitae iusto
+        asperiores.</p>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus vel excepturi adipisci, eveniet voluptatibus
+        voluptates numquam accusantium ipsam expedita dicta cumque laboriosam, impedit itaque eum ab exercitationem
+        velit saepe cum.</p>
+</section>
+
+{% endblock %}

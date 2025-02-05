@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% extends "master.html" %}
+    {% block menu %}
+    <a href="wd">Home</a>
+    <a href="wd">Home</a>
+    <a href="wd">Home</a>
+    <a href="wd">Home</a>
+    {% endblock %}
+    {% block content %}
+    {% load testapp_tags%}
+    <h><br>Conatct</h>
+    <h1>{{text|Quotes}}</h1>
+    {% endblock %}
+    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugiat facilis voluptate exercitationem dolorem corrupti dolor, beatae expedita repellat ducimus itaque rem est cupiditate laudantium asperiores tenetur unde, odit at optio.</p>
+</body>
+</html>

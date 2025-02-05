@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question h2 {
+            margin-bottom: 10px;
+        }
+        .answers input {
+            margin-right: 5px;
+        }
+        .submit-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Python Knowledge Test</h1>
+    <form id="pythonTestForm">
+        <!-- Question 1 -->
+        <div class="question">
+            <h2>1. What is the output of the following code?</h2>
+            <pre>
+                print(type([]))
+            </pre>
+            <div class="answers">
+                <label><input type="radio" name="q1" value="A"> A) <class 'tuple'></label><br>
+                <label><input type="radio" name="q1" value="B"> B) <class 'list'></label><br>
+                <label><input type="radio" name="q1" value="C"> C) <class 'dict'></label><br>
+                <label><input type="radio" name="q1" value="D"> D) <class 'set'></label>
+            </div>
+        </div>
+        
+        <!-- Question 2 -->
+        <div class="question">
+            <h2>2. Which of the following is immutable?</h2>
+            <div class="answers">
+                <label><input type="radio" name="q2" value="A"> A) List</label><br>
+                <label><input type="radio" name="q2" value="B"> B) Dictionary</label><br>
+                <label><input type="radio" name="q2" value="C"> C) Tuple</label><br>
+                <label><input type="radio" name="q2" value="D"> D) Set</label>
+            </div>
+        </div>
+        
+        <!-- Question 3 -->
+        <div class="question">
+            <h2>3. Which keyword is used to define a function in Python?</h2>
+            <div class="answers">
+                <label><input type="radio" name="q3" value="A"> A) func</label><br>
+                <label><input type="radio" name="q3" value="B"> B) define</label><br>
+                <label><input type="radio" name="q3" value="C"> C) def</label><br>
+                <label><input type="radio" name="q3" value="D"> D) function</label>
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="button" class="submit-btn" onclick="submitTest()">Submit</button>
+    </form>
+
+    <script>
+        function submitTest() {
+            const form = document.getElementById('pythonTestForm');
+            const formData = new FormData(form);
+
+            // Example logic to check answers
+            const answers = {
+                q1: 'B',
+                q2: 'C',
+                q3: 'C'
+            };
+
+            let score = 0;
+            for (let [question, correctAnswer] of Object.entries(answers)) {
+                if (formData.get(question) === correctAnswer) {
+                    score++;
+                }
+            }
+
+            alert(`Your score: ${score}/${Object.keys(answers).length}`);
+        }
+    </script>
+</body>
+</html>

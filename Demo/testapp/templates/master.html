@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load testapp_tags %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h>The time right now is {% date %}<br></h>
+    {% block menu %}
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+    <div id = "footer">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nemo beatae cupiditate nostrum pariatur, quis, assumenda expedita minima dolor molestias consequuntur ullam rerum odio hic.
+    </div>
+</body>
+</html>
