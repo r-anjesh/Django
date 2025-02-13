@@ -74,7 +74,7 @@ def update_item(request, id):
 
     if form.is_valid():
         form.save()
-        return render('food:index')
+        return redirect('food:index')
     
     return render(request, 'food/item-form.html',context={
         'form':form,
