@@ -118,7 +118,7 @@ The admin panel allows for easy management of users, food items, and profiles. S
 
 ### Static Files
 
-Static files, including images and CSS, are stored and served using Django's static files system. Profile pictures are uploaded to the `pictures/profilepicture/` directory.
+Static files, including images and CSS, are stored and served using Django's static files system. Profile pictures are uploaded to the `pictures/profile_pictures/` directory.
 
 ---
 
