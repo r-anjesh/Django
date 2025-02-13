@@ -1,0 +1,60 @@
+{% extends 'food/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="text-warning text-center mb-4">🍽 Explore Our Menu</h2>
+
+    <div class="row g-4">
+        {% for item in item_list %}
+            <div class="col-md-4">
+                <div class="card shadow-lg p-3 h-100 food-card">
+                    <img src="{{ item.item_image }}" class="card-img-top rounded" alt="{{ item.item_name }}">
+                    <div class="card-body text-center">
+                        <h4 class="card-title text-light">{{ item.item_name }}</h4>
+                        <p class="card-text text-light">{{ item.item_desc }}</p>
+                        <h6 class="text-warning fw-bold">${{ item.item_price }}</h6>
+                        <h6 class="text-light">Added by: {{ item.user_name }}</h6>
+                        <a href="{% url 'food:detail' item.id %}" class="btn btn-warning mt-2">🍕 View Details</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 text-center">
+                <h4 class="text-light">No items available 😔</h4>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Custom Styling -->
+<style>
+    /* Custom Food Card */
+    .food-card {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .food-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px var(--accent-color);
+    }
+
+    /* Food Card Image */
+    .food-card img {
+        height: 250px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+
+    /* Button Hover Effect */
+    .btn-warning:hover {
+        background: var(--accent-color);
+        transform: scale(1.1);
+        transition: 0.3s;
+    }
+    
+</style>
+
+{% endblock %}

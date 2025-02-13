@@ -1,0 +1,62 @@
+{% extends 'food/base.html' %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg p-5 d-flex flex-row align-items-center">
+        <!-- Profile Image (Left) -->
+        <div class="me-4">
+            <img class="rounded-circle border border-primary shadow-sm" width="150px" height="150px"
+                 src="{{ user.profile.image.url }}" alt="Profile Image">
+        </div>
+
+        <!-- User Details (Right) -->
+        <div class="text-start">
+            <!-- Username -->
+            <h1 class="display-5 fw-bold text-light">{{ user.username|title }}</h1>
+
+            <!-- Location -->
+            <p class="lead text-decoration">{{ user.profile.location }}</p>
+
+            <!-- Slogan -->
+            <p class="fst-italic text-warning">"Discover the taste of happiness with FoodMenu!"</p>
+
+            <!-- Logout Button -->
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary mt-4">Logout</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+    body {
+        background-color: #3E2723;
+        color: #FFFFFF;
+        font-family: 'Arial', sans-serif;
+    }
+    .card {
+        background-color: #4E342E;
+        color: #FFFFFF;
+        border-radius: 15px;
+        max-width: 600px;
+        width: 100%;
+    }
+    .btn-primary {
+        background-color: #FF8F00;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    .btn-primary:hover {
+        background-color: #D84315;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .text-warning {
+        font-size: 1rem;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'food/base.html' %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 text-light">Update Menu</h2>
+    <ul class="list-group">
+        {% for item in items %}
+        <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #4E342E; border-color: #3E2723;">
+            <div class="d-flex align-items-center">
+                <img src="{{ item.item_image }}" alt="Item Image" class="rounded-circle border border-warning shadow-sm" style="height: 50px; width: 50px; object-fit: cover; margin-right: 15px;">
+                <span class="text-light fw-">{{ item.item_name }}</span>
+            </div>
+            <a href="{% url 'food:update_item' item.id %}" class="btn btn-primary btn-custom">Update</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- Custom Styling -->
+<style>
+    body {
+        background-color: #3E2723;
+        color: #FFFFFF;
+        font-family: 'Arial', sans-serif;
+    }
+    .list-group-item {
+        background-color: #4E342E;
+        border: 1px solid #3E2723;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    .btn-custom {
+        background-color: #FF8F00;
+        border: none;
+        border-radius: 10px;
+        padding: 5px 15px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    .btn-custom:hover {
+        background-color: #D84315;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+        font-family: 'Arial', sans-serif;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
