@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .list-group-item {
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+            border: 1px solid #ced4da;
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+        .btn-primary {
+            border-radius: 5px;
+            padding: 10px 20px;
+        }
+        .total-price {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .original-price {
+            text-decoration: line-through;
+        }
+        .discounted-price {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4">Checkout</h2>
+                <ul id="item_list" class="list-group">
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST" id="checkout-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="items" id="items">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="name" class="form-label">Name</label>
+                            <input id="name" name="name" type="text" class="form-control" placeholder="Your Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input id="email" name="email" type="email" class="form-control" placeholder="mail@gmail.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input id="address" name="address" type="text" class="form-control" placeholder="1234 Main St" required>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input id="city" name="city" type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="state" class="form-label">State</label>
+                            <input id="state" name="state" type="text" class="form-control" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="zipcode" class="form-label">Zip</label>
+                            <input id="zipcode" name="zipcode" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-2">
+                            <label for="total" class="form-label">Amount to be Paid</label>
+                            <input readonly type="text" name="total" id="total" class="form-control total-price">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    if (localStorage.getItem('cart') == null) {
+        var cart = {};
+    } else {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    }
+    let total = 0;
+    for (item in cart) {
+        let name = cart[item][1];
+        let quantity = cart[item][0];
+        let price = cart[item][2];
+        let discount_price = cart[item][3];
+        total += discount_price;
+
+        let itemString = `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
+                    <span class="font-weight-bold">${name}</span>
+                    <small class="text-muted">Quantity: ${quantity}</small>
+                </div>
+                <span class="original-price">Rs. ${price.toFixed(2)}</span>
+                <span class="discounted-price">Rs. ${discount_price.toFixed(2)}</span>
+            </li>`;
+        $('#item_list').append(itemString);
+    }
+    totalPrice = `<li class="list-group-item d-flex justify-content-between align-items-center total-price"><b>Total Price</b> Rs. ${total.toFixed(2)}</li>`;
+    $('#total').val(total.toFixed(2));
+    $('#item_list').append(totalPrice);
+    $('#items').val(JSON.stringify(cart));
+
+    // Clear local storage on form submission
+    $('#checkout-form').on('submit', function() {
+        localStorage.removeItem('cart'); 
+    });
+</script>
+</html>
