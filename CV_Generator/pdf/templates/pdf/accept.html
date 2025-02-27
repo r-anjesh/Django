@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #e9ecef; /* Light gray background */
+        }
+        .form-container {
+            margin-top: 50px;
+            margin-bottom: 50px; 
+        }
+        .card-header {
+            background-color: #6f42c1; /* Purple header */
+            color: white;
+        }
+        .btn-primary {
+            background-color: #28a745; /* Green button */
+            border-color: #28a745;
+        }
+        .btn-primary:hover {
+            background-color: #218838; /* Darker green on hover */
+            border-color: #1e7e34;
+        }
+        .form-label {
+            color: #6f42c1; /* Purple labels */
+        }
+        .form-control {
+            border: 1px solid #6f42c1; /* Purple borders for inputs */
+        }
+        .form-control:focus {
+            border-color: #5a3e9d; /* Darker purple on focus */
+            box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25); /* Shadow effect */
+        }
+        .section-title {
+            font-weight: normal;
+            font-size: 1.1em;
+            color: #6f42c1; /* Same color as labels */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+        }
+        .btn-sm {
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container form-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h4>Create Your CV</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="phone" name="phone" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="summary" class="form-label">Summary</label>
+                                <textarea class="form-control" id="summary" name="summary" rows="3" required></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="skills" class="form-label">Skills</label>
+                                <input type="text" class="form-control" id="skills" name="skills" required>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="github" class="form-label">GitHub Profile</label>
+                                <input type="url" class="form-control" id="github" name="github">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="linkedin" class="form-label">LinkedIn Profile</label>
+                                <input type="url" class="form-control" id="linkedin" name="linkedin">
+                            </div>
+
+                            <!-- Education Section -->
+                            <div id="education-container">
+                                <div class="section-title">
+                                    Education
+                                    <button type="button" class="btn btn-sm btn-outline-dark  mb-3" onclick="addEducation()">Add</button>
+                                </div>
+                                <div class="education-entry mb-3">
+                                    <input type="text" class="form-control mb-3" name="degree[]" placeholder="Degree" required>
+                                    <input type="text" class="form-control mb-3" name="institution[]" placeholder="Institution" required>
+                                    <input type="text" class="form-control mb-3" name="duration[]" placeholder="Duration" required>
+                                    <input type="text" class="form-control mb-3" name="board[]" placeholder="Board/University">
+                                    <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+                                </div>
+                            </div>
+
+                            <!-- Experience Section -->
+                            <div id="experience-container">
+                                <div class="section-title">
+                                    Experience
+                                    <button type="button" class="btn btn-sm btn-outline-dark mb-3" onclick="addExperience()">Add</button>
+                                </div>
+                                <div class="experience-entry mb-3">
+                                    <input type="text" class="form-control mb-3" name="job_title[]" placeholder="Job Title" required>
+                                    <input type="text" class="form-control mb-3" name="company[]" placeholder="Company" required>
+                                    <input type="text" class="form-control mb-3" name="experience_duration[]" placeholder="Duration" required>
+                                    <textarea class="form-control mb-3" name="responsibilities[]" placeholder="Responsibilities" rows="3" required></textarea>
+                                    <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+                                </div>
+                            </div>
+
+                            <!-- Projects Section -->
+                            <div id="project-container">
+                                <div class="section-title">
+                                    Projects
+                                    <button type="button" class="btn btn-sm btn-outline-dark mb-3" onclick="addProject()">Add</button>
+                                </div>
+                                <div class="project-entry mb-3">
+                                    <input type="text" class="form-control mb-3" name="project_title[]" placeholder="Project Title" required>
+                                    <input type="text" class="form-control mb-3" name="technologies[]" placeholder="Technologies" required>
+                                    <textarea class="form-control mb-3" name="project_description[]" placeholder="Description" rows="3" required></textarea>
+                                    <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+                                </div>
+                            </div>
+
+                            <!-- Certifications Section -->
+                            <div id="certification-container">
+                                <div class="section-title">
+                                    Certifications
+                                    <button type="button" class="btn btn-sm btn-outline-dark  mb-3" onclick="addCertification()">Add</button>
+                                </div>
+                                <div class="certification-entry mb-3">
+                                    <input type="text" class="form-control mb-3" name="certification_title[]" placeholder="Certification Title" required>
+                                    <input type="text" class="form-control mb-3" name="issuing_organization[]" placeholder="Issuing Organization" required>
+                                    <input type="date" class="form-control mb-3" name="date_issued[]" required>
+                                    <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <a href="/list" class="w-50">
+                                    <button type="button" class="btn btn-primary w-100 me-1">View All Resumes</button>
+                                </a>
+                                <button type="submit" class="btn btn-primary w-50">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            const educationDiv = document.createElement('div');
+            educationDiv.classList.add('education-entry', 'mb-3');
+            educationDiv.innerHTML = `
+                <input type="text" class="form-control mb-3" name="degree[]" placeholder="Degree" required>
+                <input type="text" class="form-control mb-3" name="institution[]" placeholder="Institution" required>
+                <input type="text" class="form-control mb-3" name="duration[]" placeholder="Duration" required>
+                <input type="text" class="form-control mb-3" name="board[]" placeholder="Board/University">
+                <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+            `;
+            container.appendChild(educationDiv);
+        }
+
+        function addExperience() {
+            const container = document.getElementById('experience-container');
+            const experienceDiv = document.createElement('div');
+            experienceDiv.classList.add('experience-entry', 'mb-3');
+            experienceDiv.innerHTML = `
+                <input type="text" class="form-control mb-3" name="job_title[]" placeholder="Job Title" required>
+                <input type="text" class="form-control mb-3" name="company[]" placeholder="Company" required>
+                <input type="text" class="form-control mb-3" name="experience_duration[]" placeholder="Duration" required>
+                <textarea class="form-control mb-3" name="responsibilities[]" placeholder="Responsibilities" rows="3" required></textarea>
+                <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+            `;
+            container.appendChild(experienceDiv);
+        }
+
+        function addProject() {
+            const container = document.getElementById('project-container');
+            const projectDiv = document.createElement('div');
+            projectDiv.classList.add('project-entry', 'mb-3');
+            projectDiv.innerHTML = `
+                <input type="text" class="form-control mb-3" name="project_title[]" placeholder="Project Title" required>
+                <input type="text" class="form-control mb-3" name="technologies[]" placeholder="Technologies" required>
+                <textarea class="form-control mb-3" name="project_description[]" placeholder="Description" rows="3" required></textarea>
+                <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+            `;
+            container.appendChild(projectDiv);
+        }
+
+        function addCertification() {
+            const container = document.getElementById('certification-container');
+            const certificationDiv = document.createElement('div');
+            certificationDiv.classList.add('certification-entry', 'mb-3');
+            certificationDiv.innerHTML = `
+                <input type="text" class="form-control mb-3" name="certification_title[]" placeholder="Certification Title" required>
+                <input type="text" class="form-control mb-3" name="issuing_organization[]" placeholder="Issuing Organization" required>
+                <input type="date" class="form-control mb-3" name="date_issued[]" required>
+                <button type="button" class="btn btn-sm btn-outline-dark" onclick="removeSection(this)">Remove</button>
+            `;
+            container.appendChild(certificationDiv);
+        }
+
+        function removeSection(element) {
+            element.parentElement.remove();
+        }
+    </script>
+</body>
+</html>

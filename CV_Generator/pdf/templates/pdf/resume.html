@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff; /* White background */
+            color: #000000; /* Black text */
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            text-align: center; /* Center align the main container */
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+        }
+        .contact-info {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+        }
+        .contact-info span {
+            margin: 0 10px; /* Add spacing between contact details */
+        }
+        hr {
+            border: 1px solid #000; /* Black line */
+            margin: 20px 0;
+        }
+        .section {
+            text-align: left;
+            margin-bottom: 30px; /* Space between sections */
+        }
+        .section-title {
+            font-weight: bold;
+            font-size: 1.4em;
+            border-bottom: 2px solid #000;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px; /* Space between list items */
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-item {
+            background: #000;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Name and Contact Info -->
+        <h1>{{ user_profile.name }}</h1>
+        <div class="contact-info">
+            <span>{{ user_profile.email }}</span> | 
+            <span>{{ user_profile.phone }}</span>
+            {% if user_profile.github %}
+                | <span><a href="{{ user_profile.github }}" target="_blank">GitHub</a></span>
+            {% endif %}
+            {% if user_profile.linkedin %}
+                | <span><a href="{{ user_profile.linkedin }}" target="_blank">LinkedIn</a></span>
+            {% endif %}
+        </div>
+        <hr>
+
+        <!-- Summary -->
+        <div class="section">
+            <p class="section-title">Summary</p>
+            <p>{{ user_profile.summary }}</p>
+        </div>
+
+        <!-- Skills -->
+        <div class="section">
+            <p class="section-title">Skills</p>
+            <div class="skills-list">
+                {{user_profile.skills}}
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+            <p class="section-title">Education</p>
+            <ul>
+                {% for edu in user_profile.education.all %}
+                    <li><strong>{{ edu.degree }}</strong> at {{ edu.institution }} ({{ edu.duration }})<br>
+                        <em>{{ edu.board }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Experience -->
+        <div class="section">
+            <p class="section-title">Experience</p>
+            <ul>
+                {% for exp in user_profile.experience.all %}
+                    <li><strong>{{ exp.job_title }}</strong> at {{ exp.company }} ({{ exp.duration }})<br><br>
+                        <em>{{ exp.responsibilities }}</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Projects -->
+        <div class="section">
+            <p class="section-title">Projects</p>
+            <ul>
+                {% for project in user_profile.projects.all %}
+                    <li><strong>{{ project.title }}</strong><br>
+                        <em>Technologies: {{ project.technologies }}</em><br><br>
+                        {{ project.description }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Certifications -->
+        <div class="section">
+            <p class="section-title">Certifications</p>
+            <ul>
+                {% for cert in user_profile.certifications.all %}
+                    <li><strong>{{ cert.title }}</strong><br>
+                        <em>Issued by: {{ cert.issuing_organization }} ({{ cert.date_issued }})</em>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
